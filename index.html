@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ClimatologiaOMAS</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+<link rel="stylesheet" href="css/estilo.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+		integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+		crossorigin="anonymous"></script>
+<script type='text/javascript' src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="js/climaomas.js"></script>
+
+<script type='text/javascript'>
+$(window).load(function(){
+$('a[data-toggle="tab"]').on('shown', function (e) {
+    $('.dropdown-menu li.active').removeClass('active');
+    $(this).parent('li').addClass('active');
+})
+}); 
+</script>
+</head>
+<body>
+
+<div class="wrapper">
+ <div class="content">
+  <div class="header">
+    <div class="main">
+<div class="tabbedPanels">
+<div id='menuWrapper'>
+<div class='menu'>	
+<div class="btn-group">
+	<div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">VIENTO<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a href="#panel01" data-toggle="tab">-Dirección del viento por meses</a></li>
+		  <li><a href="#panel02" data-toggle="tab">-Día típico</a></li>
+		  <li><a href="#panel03" data-toggle="tab">-Dirección del viento por horas</a></li>
+          <li><a href="#panel04" data-toggle="tab">-Comparacion entre estaciones</a></li>
+        </ul>
+    </div>
+	<div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">RACHAS<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <li><a href="#panel20" data-toggle="tab">-Dirección de la racha máxima</a></li>
+		  <li><a href="#panel21" data-toggle="tab">-Racha máxima diaria ≥ 43 kt</a></li>
+		  <li><a href="#panel23" data-toggle="tab">-Número total de días con racha ≥ 43 kt</a></li>
+          <li><a href="#panel24" data-toggle="tab">-Viento medio vs Viento máximo diezminutal</a></li>		  
+        </ul>
+    </div>
+    <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">NUBOSIDAD<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a href="#panel7" data-toggle="tab">-Dirección del viento con OVC/BKN < 1500 ft</a></li>
+		  <li><a href="#panel8" data-toggle="tab">-Base de las nubes OVC/BKN ≤ 500 ft</a></li>
+		  <li><a href="#panel9" data-toggle="tab">-Base de las nubes OVC/BKN < 1500 ft</a></li>
+		  
+        </ul>
+    </div>
+    <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">NIEBLAS<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <li><a href="#panel50" data-toggle="tab">-Frecuencia horaria de la niebla</a></li>
+		  <li><a href="#panel51" data-toggle="tab">-Día típico de niebla</a></li>
+		  <li><a href="#panel52"  data-toggle="tab">-Dirección del viento en situaciones de niebla</a></li>
+		  <li><a href="#panel30" data-toggle="tab">-Número medio de días de niebla</a></li>
+		  <li><a href="#panel43" data-toggle="tab">-Temperatura de formación de la niebla</a></li>
+		  <li><a href="#panel14" data-toggle="tab">-Hora de inicio/fin de la niebla</a></li>
+		  <li><a href="#panel15" data-toggle="tab">-Duración de la niebla vs Presión</a></li>
+		  <li><a href="#panel17" data-toggle="tab">-Depresión del punto de rocio a las 18 y 20 UTC</a></li>
+		  
+        </ul>
+    </div>
+    <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">TEMPERATURA<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <li><a href="#panel10" data-toggle="tab">-Valores normales 1981-2010</a></li>
+		  <li><a href="#panel11" data-toggle="tab">-Número medio de días de helada</a></li>
+          <li><a href="#panel12" data-toggle="tab">-Temperatura según la dirección del viento</a></li>
+		  <li><a href="#panel13" data-toggle="tab">-Mapas de calor</a></li>
+		  <li><a href="#panel16" data-toggle="tab">-Dirección viento para avisos Tmáx</a></li>
+        </ul>
+    </div>
+
+    <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">TORMENTAS<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#panel31" data-toggle="tab">-Distribución temporal de tormentas</a></li>
+		  <li><a href="#panel32" data-toggle="tab">-Número medio de días de tormenta</a></li>
+		  <li><a href="#panel36" data-toggle="tab">-Distribución horaria de tormentas</a></li>  
+        </ul>
+    </div>
+    <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">PRECIPITACIÓN<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <li><a href="#panel40" data-toggle="tab">-Frecuencia horaria de precipitación</a></li>
+          <li><a href="#panel41" data-toggle="tab">-Visibilidad según la intensidad de lluvia</a></li>		  
+        </ul>
+    </div>
+	<div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">ESTUDIOS<span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  <li><a href="estudios/levante_lemo.pdf" onclick="window.open('#','_blank');">El viento de levante en la base de Morón</a></li>
+          <li><a href="estudios/viento_lemi.pdf" onclick="window.open('#','_blank');window.open(this.href,'_self');">El viento en el aeropuerto de Murcia</a></li>
+          <li><a href="estudios/mod_deterministas.pdf" onclick="window.open('#','_blank');window.open(this.href,'_self');">Modelos deterministas en predicción operativa</a></li>
+		  <li><a href="estudios/nieblas.pdf" onclick="window.open('#','_blank');window.open(this.href,'_self');">Nieblas en el valle del Guadalquivir</a></li>
+		  <li><a href="estudios/climatologia_sssevilla.pdf" onclick="window.open('#','_blank');window.open(this.href,'_self');">60 años de climatología de la Semana Santa de Sevilla</a></li>  
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+</div>
+ 
+<div class="tab-content"> 
+    <div id="panel0" class="tab-pane active">
+	    <div class="class_panel0zona1imagen">
+                <img id="portada" src="images/portada.jpg">
+        </div>
+        <div class="clear"></div>
+	</div>
+
+<div id="panel01" class="tab-pane">	  
+        <div id="panel01zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto5" id="LEBZ" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto5" id="LEZL" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto5" id="LEEC" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto5" id="LEBA" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto5" id="LEMO" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto5" id="LEJR" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto5" id="LERT" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto5" id="LEMG" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto5" id="LEGR" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto5" id="LEGA" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto5" id="LEAM" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto5" id="LELC" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto5" id="LEMI" style="background-color: white; color: black;">MURCIA</div>
+				<div class="class_seleccion_aeropuerto5" id="LERI" style="background-color: white; color: black;">ALCANTARILLA</div>
+                <div class="class_seleccion_aeropuerto5" id="GEML" style="background-color: white; color: black;">MELILLA</div>				
+            </div>
+	        <div class="clear"></div>
+	    </div>		
+        <div id="panel01zona2">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_mes5" id="01" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes5" id="02" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes5" id="03" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes5" id="04" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes5" id="05" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes5" id="06" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes5" id="07" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes5" id="08" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes5" id="09" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes5" id="10" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes5" id="11" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes5" id="12" style="background-color: white; color: black;">Diciembre</div>		
+            </div>  
+            <div class="clear"></div>			  
+        </div>	  	  
+        <div id="panel01zona3">
+            <div class="class_panel01zona3imagen">
+            <img id="panel01zona3imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+<div id="panel02" class="tab-pane">
+            <div id="panel02zona1">
+              <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto2" id="lebz" style="background-color: blue; color: white;">BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto2" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto2" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto2" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto2" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto2" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto2" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto2" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto2" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto2" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto2" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto2" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto2" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_aeropuerto2" id="geml" style="background-color: white; color: black;">MELILLA</div>				
+            </div>
+			 <div class="clear"></div>
+	    </div>
+        <div id="panel02zona2">
+              <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_mes2" id="ene" style="background-color: white; color: black;">Enero</div>
+                <div class="class_seleccion_mes2" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes2" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes2" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes2" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes2" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes2" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes2" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes2" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes2" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes2" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes2" id="dic" style="background-color: white; color: black;">Diciembre</div>
+				<div class="clear"></div>
+              </div>
+	    </div> 
+		<div id="panel02zona3">
+              <div class="class_panel02zona3imagen">
+              <img id="panel02zona3imagen" alt="Pagina en construcción.">
+              </div>
+            <div class="clear"></div>
+        </div>
+</div>
+<div id="panel03" class="tab-pane">
+        <div id="panel03zona1">
+              <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto1" id="lebz" style="background-color: blue; color: white;">BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto1" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_aeropuerto1" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto1" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto1" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto1" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto1" id="lemg" style="background-color: white; color: black;">MALAGA</div>
+				<div class="class_seleccion_aeropuerto1" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto1" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto1" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto1" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto1" id="lemi" style="background-color: white; color: black;">MURCIA</div>
+				<div class="class_seleccion_aeropuerto1" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_aeropuerto1" id="geml" style="background-color: white; color: black;">MELILLA</div>	
+               </div>
+	           <div class="clear"></div>
+	    </div>
+        <div id="panel03zona2">
+              <div class="class_seleccion_aeropuerto_tabla3">
+                <div class="class_seleccion_mes1" id="ene" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes1" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes1" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes1" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes1" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes1" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes1" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes1" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes1" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes1" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes1" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes1" id="dic" style="background-color: white; color: black;">Diciembre</div>		
+              </div>  
+              <div class="clear"></div>			  
+        </div>	
+		<div id="panel03zona3">
+			<div class="class_seleccion_siguiente_tabla">
+			<table>
+				<tr>
+                <td colspan="2"><div class="class_seleccion_siguiente" id="anterior"><img id="prev" src="./images/prev.png"></div>
+				<div class="class_seleccion_siguiente" id="siguiente"><img id="prev" src="./images/next.png"></div></td>
+				</tr><tr>
+                <td><div class="class_seleccion_hora" id="000" style="background-color: blue; color: white;">00</div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="001" style="background-color: white; color: black;"></div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="002" style="background-color: blue; color: white;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="003" style="background-color: white; color: black;">03</div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="004" style="background-color: blue; color: white;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="005" style="background-color: white; color: black;"></div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="006" style="background-color: blue; color: white;">06</div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="007" style="background-color: white; color: black;"></div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="008" style="background-color: blue; color: white;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="009" style="background-color: white; color: black;">09</div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="010" style="background-color: blue; color: white;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="011" style="background-color: white; color: black;"></div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="012" style="background-color: blue; color: white;">12</div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="013" style="background-color: white; color: black;"></div></td>
+    			</tr><tr>
+				<td><div class="class_seleccion_hora" id="014" style="background-color: white; color: black;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="015" style="background-color: white; color: black;">15</div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="016" style="background-color: white; color: black;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="017" style="background-color: white; color: black;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="018" style="background-color: white; color: black;">18</div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="019" style="background-color: white; color: black;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="020" style="background-color: white; color: black;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="021" style="background-color: white; color: black;">21</div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="022" style="background-color: white; color: black;"></div></td>
+				</tr><tr>
+				<td><div class="class_seleccion_hora" id="023" style="background-color: white; color: black;"></div></td>
+				</tr>
+        </table>				
+        </div>
+        </div>
+        		
+		<div id="panel03zona4">
+              <div class="class_panel03zona4imagen">
+                <img id="panel03zona4imagen" " alt="Pagina en construcción.">
+              </div>
+              <div class="clear"></div>
+        </div>
+</div>
+
+	<div id="panel12" class="tab-pane">	  
+        <div id="panel12zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto3" id="lebz" style="background-color: white; color: black;">BADAJOZ</div>
+				<div class="class_seleccion_aeropuerto3" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_aeropuerto3" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+				<div class="class_seleccion_aeropuerto3" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+                <div class="class_seleccion_aeropuerto3" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto3" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto3" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto3" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto3" id="leam" style="background-color: white; color: black;">ALMERIA</div>
+                <div class="class_seleccion_aeropuerto3" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto3" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+                <div class="class_seleccion_aeropuerto3" id="geml" style="background-color: white; color: black;">MELILLA</div>
+				
+            </div>
+	        <div class="clear"></div>
+	    </div>		
+        <div id="panel12zona2">
+            <div class="class_seleccion_aeropuerto_tabla">
+				<div class="class_seleccion_mes3" id="ene" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes3" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes3" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes3" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes3" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes3" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes3" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes3" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes3" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes3" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes3" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes3" id="dic" style="background-color: white; color: black;">Diciembre</div>		
+            </div>  
+            <div class="clear"></div>			  
+        </div>	  	  
+        <div id="panel12zona3">
+            <div class="class_panel12zona3imagen">
+            <img id="panel12zona3imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="panel04" class="tab-pane">  
+        <div id="panel04zona1">
+            <select  name="elegir_aeropuerto1" class="selectpicker">
+              <option  selected="selected" value="legr">Elige una estación</option>
+			  <optgroup label="AEROPUERTOS Y BASES">
+			  <option value="lebz">BADAJOZ</option>
+              <option value="lezl">SEVILLA</option>  
+              <option value="leba">CÓRDOBA</option>
+              <option value="lemo">MORÓN</option>
+              <option value="lejr">JEREZ</option>
+              <option value="lert">ROTA</option>
+              <option value="lemg">MÁLAGA</option>
+              <option value="legr">GRANADA</option>			  
+              <option value="lega">ARMILLA</option>
+              <option value="leam">ALMERÍA</option>	  
+			  <option value="lelc">SAN JAVIER</option>
+			  <option value="lemi">MURCIA</option>
+			  <option value="leri">ALCANTARILLA</option>
+			  <option value="geml">MELILLA</option>
+              </select>
+            <select name="elegir_aeropuerto2">
+              <option size="5" selected="selected" value="lega">Elige una estación</option>
+			  <optgroup label="AEROPUERTOS Y BASES">
+			  <option value="lebz">BADAJOZ</option>
+              <option value="lezl">SEVILLA</option>  
+              <option value="leba">CÓRDOBA</option>
+              <option value="lemo">MORÓN</option>
+              <option value="lejr">JEREZ</option>
+              <option value="lert">ROTA</option>
+              <option value="lemg">MÁLAGA</option>
+              <option value="legr">GRANADA</option>			  
+              <option value="lega">ARMILLA</option>
+              <option value="leal">ALMERÍA</option>	    
+			  <option value="lelc">SAN JAVIER</option>
+			  <option value="lemi">MURCIA</option>
+			  <option value="leri">ALCANTARILLA</option>
+			  <option value="geml">MELILLA</option>
+            </select>
+            <div class="clear"></div>			  
+        </div>
+		<div id="panel04zona2">
+            <div class="class_seleccion_comparacion_tabla">
+                <div class="class_seleccion_mes4" id="ene" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes4" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes4" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes4" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes4" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes4" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes4" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes4" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes4" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes4" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes4" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes4" id="dic" style="background-color: white; color: black;">Diciembre</div>				
+            </div>
+        </div>
+        <div id="panel04zona3">
+              <div class="class_seleccion_hora_tabla">
+                <div class="class_seleccion_hora4" id="000" style="background-color: blue; color: white;">00</div>
+                <div class="class_seleccion_hora4" id="001" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="002" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="003" style="background-color: white; color: black;">03</div>
+				<div class="class_seleccion_hora4" id="004" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="005" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="006" style="background-color: white; color: black;">06</div>
+                <div class="class_seleccion_hora4" id="007" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="008" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="009" style="background-color: white; color: black;">09</div>
+                <div class="class_seleccion_hora4" id="010" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="011" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="012" style="background-color: white; color: black;">12</div>
+                <div class="class_seleccion_hora4" id="013" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="014" style="background-color: white; color: black;"></div>
+                <div class="class_seleccion_hora4" id="015" style="background-color: white; color: black;">15</div>
+				<div class="class_seleccion_hora4" id="016" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="017" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="018" style="background-color: white; color: black;">18</div>
+				<div class="class_seleccion_hora4" id="019" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="020" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="021" style="background-color: white; color: black;">21</div>
+				<div class="class_seleccion_hora4" id="022" style="background-color: white; color: black;"></div>
+				<div class="class_seleccion_hora4" id="023" style="background-color: white; color: black;"></div>
+              </div>  
+              <div class="clear"></div>			  
+        </div>
+        <div id="panel04zona4">
+            <table class="class_tabla_panel04zona4">
+		    <tr>
+                <td><div class="class_panel04zona4imagen"><img id="panel04zona4imagen"  alt="Pagina en construcción."></div></div></td>
+                <td><div class="class_panel04zona5imagen"><img id="panel04zona5imagen"   alt="Pagina en construcción."></div></div></td>
+			</tr>
+			</table>
+        </div>
+    </div>	
+
+<div id="panel52" class="tab-pane">
+    <div id="panel52zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto52" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto52" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto52" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto52" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto52" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto52" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto52" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto52" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto52" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto52" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto52" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto52" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto52" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto52" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel52zona2">
+            <div class="class_panel52zona2imagen">
+            <img id="panel52zona2imagen"  alt="">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+
+<div id="panel50" class="tab-pane">
+	    <div id="panel50zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto50" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto50" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto50" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto50" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto50" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto50" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto50" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto50" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto50" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto50" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto50" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto50" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto50" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto50" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel50zona2">
+            <div class="class_panel50zona2imagen">
+              <img id="panel50zona2imagen"  alt="">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+
+<div id="panel31" class="tab-pane">	  
+        <div id="panel31zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto31" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto31" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto31" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto31" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto31" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto31" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto31" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto31" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto31" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto31" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto31" id="leam" style="background-color: white; color: black;">ALMERÍA</div>	
+				<div class="class_seleccion_aeropuerto31" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto31" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+                <div class="class_seleccion_aeropuerto31" id="geml" style="background-color: white; color: black;">MELILLA</div>					
+	        </div>
+			<div class="clear"></div>
+	        </div>			  	  
+        <div id="panel31zona2">
+            <div class="class_panel31zona2imagen">
+              <img id="panel31zona2imagen"  alt="">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+<div id="panel43" class="tab-pane">
+	<div id="panel43zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto43" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto43" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto43" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto43" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto43" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto43" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto43" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto43" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto43" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto43" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto43" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto43" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto43" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto43" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel43zona2">
+            <div class="class_panel43zona2imagen">
+            <img id="panel43zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+    </div>
+</div>
+
+<div id="panel13" class="tab-pane">
+    <div id="panel13zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto13" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto13" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto13" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto13" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto13" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto13" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto13" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto13" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto13" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto13" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto13" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto13" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto13" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto13" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel13zona2">
+            <div class="class_panel13zona2imagen">
+            <img id="panel13zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+	
+<div id="panel14" class="tab-pane">
+	<div id="panel14zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto14" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto14" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto14" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto14" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto14" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto14" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto14" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto14" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto14" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto14" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto14" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto14" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto14" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto14" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+	</div>
+	<div id="panel14zona2">
+            <div class="class_panel14zona2imagen">
+            <img id="panel14zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+    </div>
+</div>
+
+<div id="panel15" class="tab-pane">
+		<div id="panel15zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto15" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto15" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto15" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto15" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto15" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto15" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto15" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto15" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto15" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto15" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto15" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto15" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto15" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto15" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel15zona2">
+            <div class="class_panel15zona2imagen">
+            <img id="panel15zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<div id="panel16" class="tab-pane">
+    <div id="panel16zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto16" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto16" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto16" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto16" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto16" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto16" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto16" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto16" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto16" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto16" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto16" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto16" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto16" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto16" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel16zona2">
+            <div class="class_panel16zona2imagen">
+            <img id="panel16zona2imagen"  alt="">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+<div id="panel7" class="tab-pane">
+    <div id="panel7zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto7" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto7" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto7" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto7" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto7" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto7" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto7" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto7" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto7" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto7" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto7" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto7" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto7" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto7" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel7zona2">
+            <div class="class_panel7zona2imagen">
+            <img id="panel7zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+<div id="panel17" class="tab-pane">
+    <div id="panel17zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_aeropuerto17" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto17" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_aeropuerto17" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto17" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto17" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto17" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto17" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto17" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto17" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto17" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto17" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto17" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto17" id="geml" style="background-color: white; color: black;">MELILLA</div>
+			</div><div class="clear"></div>
+	</div>
+	<div id="panel17zona2">
+            <div class="class_panel17zona2imagen">
+            <img id="panel17zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+    </div>
+</div>
+
+<div id="panel8" class="tab-pane">	  
+        <div id="panel8zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto8" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto8" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto8" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto8" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto8" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto8" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto8" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto8" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto8" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto8" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto8" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto8" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto8" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto8" id="geml" style="background-color: white; color: black;">MELILLA</div>
+            </div>
+	        <div class="clear"></div>
+	    </div>		
+        <div id="panel8zona2">
+            <div class="class_seleccion_aeropuerto_tabla">
+				<div class="class_seleccion_mes8" id="ene" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes8" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes8" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes8" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes8" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes8" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes8" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes8" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes8" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes8" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes8" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes8" id="dic" style="background-color: white; color: black;">Diciembre</div>		
+            </div>  
+            <div class="clear"></div>			  
+        </div>	  	  
+        <div id="panel8zona3">
+            <div class="class_panel8zona3imagen">
+            <img id="panel8zona3imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+    
+<div id="panel9" class="tab-pane">	  
+        <div id="panel9zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto9" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto9" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto9" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto9" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto9" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto9" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto9" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto9" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto9" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto9" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto9" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto9" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto9" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>	
+				<div class="class_seleccion_aeropuerto9" id="geml" style="background-color: white; color: black;">MELILLA</div>
+            </div>
+	        <div class="clear"></div>
+	    </div>		
+        <div id="panel9zona2">
+            <div class="class_seleccion_aeropuerto_tabla">
+				<div class="class_seleccion_mes9" id="ene" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes9" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes9" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes9" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes9" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes9" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes9" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes9" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes9" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes9" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes9" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes9" id="dic" style="background-color: white; color: black;">Diciembre</div>		
+            </div>  
+            <div class="clear"></div>			  
+        </div>	  	  
+        <div id="panel9zona3">
+            <div class="class_panel9zona3imagen">
+            <img id="panel9zona3imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+    <div id="panel20" class="tab-pane">	  
+        <div id="panel20zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto20" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto20" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_aeropuerto20" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto20" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto20" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto20" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto20" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto20" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto20" id="leam" style="background-color: white; color: black;">ALMERÍA</div>	
+				<div class="class_seleccion_aeropuerto20" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto20" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+                <div class="class_seleccion_aeropuerto20" id="geml" style="background-color: white; color: black;">MELILLA</div>				
+            </div>
+	        <div class="clear"></div>
+	    </div>		
+        <div id="panel20zona2">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_mes20" id="anual" style="background-color: blue; color: white;">ANUAL</div>
+				<div class="class_seleccion_mes20" id="ene" style="background-color: blue; color: white;">Enero</div>
+                <div class="class_seleccion_mes20" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes20" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes20" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes20" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes20" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes20" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes20" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes20" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes20" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes20" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes20" id="dic" style="background-color: white; color: black;">Diciembre</div>		
+            </div>  
+            <div class="clear"></div>			  
+        </div>	  	  
+        <div id="panel20zona3">
+            <div class="class_panel20zona3imagen">
+            <img id="panel20zona3imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+
+<div id="panel23" class="tab-pane">
+    <div id="panel23zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_avisoracha" id="ene" style="background-color: white; color: black;">Enero</div>
+				<div class="class_seleccion_avisoracha" id="feb" style="background-color: white; color: black;">Febrero</div>
+				<div class="class_seleccion_avisoracha" id="mar" style="background-color: white; color: black;">Marzo</div>
+				<div class="class_seleccion_avisoracha" id="abr" style="background-color: white; color: black;">Abril</div>
+				<div class="class_seleccion_avisoracha" id="may" style="background-color: white; color: black;">Mayo</div>
+				<div class="class_seleccion_avisoracha" id="jun" style="background-color: white; color: black;">Junio</div>
+				<div class="class_seleccion_avisoracha" id="jul" style="background-color: white; color: black;">Julio</div>
+				<div class="class_seleccion_avisoracha" id="ago" style="background-color: white; color: black;">Agosto</div>
+				<div class="class_seleccion_avisoracha" id="sep" style="background-color: white; color: black;">Septiembre</div>
+				<div class="class_seleccion_avisoracha" id="oct" style="background-color: white; color: black;">Octubre</div>
+				<div class="class_seleccion_avisoracha" id="nov" style="background-color: white; color: black;">Noviembre</div>
+				<div class="class_seleccion_avisoracha" id="dic" style="background-color: white; color: black;">Diciembre</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel23zona2">
+              <div  id="container_avisoracha">
+              </div>
+              <div class="clear"></div>
+        </div>
+</div>
+
+<div id="panel24" class="tab-pane">	  
+        <div id="panel24zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto24" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto24" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_aeropuerto24" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto24" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto24" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto24" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto24" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto24" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto24" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+                <div class="class_seleccion_aeropuerto24" id="geml" style="background-color: white; color: black;">MELILLA</div>				
+            </div>
+	        <div class="clear"></div>
+	    </div>		
+        <div id="panel24zona2">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_cuadrante" id="00" style="background-color: blue; color: white;">Todo</div>
+                <div class="class_seleccion_cuadrante" id="01" style="background-color: white; color: black;">1º cuadrante</div>
+                <div class="class_seleccion_cuadrante" id="02" style="background-color: white; color: black;">2º cuadrante</div>
+                <div class="class_seleccion_cuadrante" id="03" style="background-color: white; color: black;">3º cuadrante</div>
+                <div class="class_seleccion_cuadrante" id="04" style="background-color: white; color: black;">4º cuadrante</div>	
+            </div>  
+            <div class="clear"></div>			  
+        </div>	  	  
+        <div id="panel24zona3">
+            <div class="class_panel24zona3imagen">
+            <img id="panel24zona3imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+</div>
+    <div id="panel21" class="tab-pane">	  
+        <div id="panel21zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_vmax2" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_vmax2" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_vmax2" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_vmax2" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_vmax2" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_vmax2" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_vmax2" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_vmax2" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_vmax2" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_vmax2" id="leam" style="background-color: white; color: black;">ALMERÍA</div>	
+				<div class="class_seleccion_vmax2" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+                <div class="class_seleccion_vmax2" id="geml" style="background-color: white; color: black;">MELILLA</div>					
+            </div>
+	        <div class="clear"></div>
+	    </div>			  	  
+        <div id="panel21zona2">
+            <div class="class_panel21zona2imagen">
+            <img id="panel21zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+	<div id="panel36" class="tab-pane">	  
+        <div id="panel36zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_tormenta2" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_tormenta2" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_tormenta2" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_tormenta2" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_tormenta2" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_tormenta2" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_tormenta2" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_tormenta2" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_tormenta2" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_tormenta2" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_tormenta2" id="leam" style="background-color: white; color: black;">ALMERÍA</div>	
+				<div class="class_seleccion_tormenta2" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_tormenta2" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+                <div class="class_seleccion_tormenta2" id="geml" style="background-color: white; color: black;">MELILLA</div>					
+            </div>
+	        <div class="clear"></div>
+	    </div>			  	  
+        <div id="panel36zona2">
+            <div class="class_panel36zona2imagen">
+            <img id="panel36zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+	<div id="panel10" class="tab-pane">	  
+        <div id="panel10zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_vnormal" id="lebz" style="background-color: blue; color: white;"> BADAJOZ</div>
+                <div class="class_seleccion_vnormal" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+                <div class="class_seleccion_vnormal" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_vnormal" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_vnormal" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_vnormal" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_vnormal" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_vnormal" id="leam" style="background-color: white; color: black;">ALMERÍA</div>	
+				<div class="class_seleccion_vnormal" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_vnormal" id="lemi" style="background-color: white; color: black;">MURCIA</div>
+				<div class="class_seleccion_vnormal" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+                <div class="class_seleccion_vnormal" id="geml" style="background-color: white; color: black;">MELILLA</div>				
+            </div>
+	        <div class="clear"></div>
+	    </div>			  	  
+        <div id="panel10zona2">
+            <div class="class_panel10zona2imagen">
+            <img id="panel10zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+
+    <div id="panel30" class="tab-pane">
+       <div id="panel30zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_niebla" id="LEBZ" style="background-color: white; color: black;">BADAJOZ</div>
+				<div class="class_seleccion_niebla" id="LEZL" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_niebla" id="LEBA" style="background-color: white; color: black;">CÓRDOBA</div>
+				<div class="class_seleccion_niebla" id="LEMO" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_niebla" id="LEJR" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_niebla" id="LERT" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_niebla" id="LEMG" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_niebla" id="LEGR" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_niebla" id="LEGA" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_niebla" id="LEAM" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_niebla" id="LELC" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_niebla" id="LERI" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_niebla" id="GEML" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel30zona2">
+              <div class="class_panel30zona2imagen" id="container">
+              </div>
+              <div class="clear"></div>
+        </div>
+</div>
+<div id="panel11" class="tab-pane">
+    <div id="panel11zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_helada" id="LEBZ" style="background-color: white; color: black;">BADAJOZ</div>
+				<div class="class_seleccion_helada" id="LEZL" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_helada" id="LEBA" style="background-color: white; color: black;">CÓRDOBA</div>
+				<div class="class_seleccion_helada" id="LEMO" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_helada" id="LEJR" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_helada" id="LERT" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_helada" id="LEMG" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_helada" id="LEGR" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_helada" id="LEGA" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_helada" id="LEAM" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_helada" id="LELC" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_helada" id="LERI" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_helada" id="LEMI" style="background-color: white; color: black;">CORVERA(Imida)</div>
+				<div class="class_seleccion_helada" id="GEML" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel11zona2">
+              <div class="class_panel11zona2imagen" id="container_heladas">
+              </div>
+              <div class="clear"></div>
+        </div>
+</div>
+<div id="panel32" class="tab-pane">
+    <div id="panel32zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+			    <div class="class_seleccion_tormenta" id="LEBZ" style="background-color: white; color: black;">BADAJOZ</div>
+				<div class="class_seleccion_tormenta" id="LEZL" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_tormenta" id="LEBA" style="background-color: white; color: black;">CÓRDOBA</div>
+				<div class="class_seleccion_tormenta" id="LEMO" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_tormenta" id="LEJR" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_tormenta" id="LERT" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_tormenta" id="LEMG" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_tormenta" id="LEGR" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_tormenta" id="LEGA" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_tormenta" id="LEAM" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_tormenta" id="LELC" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_tormenta" id="LERI" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_tormenta" id="GEML" style="background-color: white; color: black;">MELILLA</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="panel32zona2">
+              <div class="class_panel32zona2imagen" id="container_tormentas">
+              </div>
+              <div class="clear"></div>
+        </div>
+</div>
+
+<div id="panel40" class="tab-pane">	  
+        <div id="panel40zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_mauto" id="lebz" style="background-color: white; color: black;">BADAJOZ</div>
+                <div class="class_seleccion_mauto" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_mauto" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_mauto" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+				<div class="class_seleccion_mauto" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+                <div class="class_seleccion_mauto" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+                <div class="class_seleccion_mauto" id="lert" style="background-color: white; color: black;">ROTA</div>
+                <div class="class_seleccion_mauto" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+                <div class="class_seleccion_mauto" id="legr" style="background-color: white; color: black;">GRANADA</div>
+                <div class="class_seleccion_mauto" id="leam" style="background-color: white; color: black;">ALMERIA</div>				
+            </div>
+	        <div class="clear"></div>
+	    </div>			  	  
+        <div id="panel40zona2">
+            <div class="class_panel40zona2imagen">
+            <img id="panel40zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<div id="panel41" class="tab-pane">	  
+        <div id="panel41zona1">
+            <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto41" id="lebz" style="background-color: white; color: black;">BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto41" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto41" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto41" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+				<div class="class_seleccion_aeropuerto41" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+                <div class="class_seleccion_aeropuerto41" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+                <div class="class_seleccion_aeropuerto41" id="lert" style="background-color: white; color: black;">ROTA</div>
+                <div class="class_seleccion_aeropuerto41" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto41" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto41" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto41" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto41" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto41" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_aeropuerto41" id="geml" style="background-color: white; color: black;">MELILLA</div>
+				
+            </div>
+	        <div class="clear"></div>
+	    </div>			  	  
+        <div id="panel41zona2">
+            <div class="class_panel41zona2imagen">
+            <img id="panel41zona2imagen" " alt="Pagina en construcción.">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<div id="panel51" class="tab-pane">
+            <div id="panel51zona1">
+              <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_aeropuerto51" id="lebz" style="background-color: blue; color: white;">BADAJOZ</div>
+                <div class="class_seleccion_aeropuerto51" id="lezl" style="background-color: white; color: black;">SEVILLA</div>
+				<div class="class_seleccion_aeropuerto51" id="leec" style="background-color: white; color: black;">EL COPERO</div>
+                <div class="class_seleccion_aeropuerto51" id="leba" style="background-color: white; color: black;">CÓRDOBA</div>
+                <div class="class_seleccion_aeropuerto51" id="lemo" style="background-color: white; color: black;">MORÓN</div>
+				<div class="class_seleccion_aeropuerto51" id="lejr" style="background-color: white; color: black;">JEREZ</div>
+				<div class="class_seleccion_aeropuerto51" id="lert" style="background-color: white; color: black;">ROTA</div>
+				<div class="class_seleccion_aeropuerto51" id="lemg" style="background-color: white; color: black;">MÁLAGA</div>
+				<div class="class_seleccion_aeropuerto51" id="legr" style="background-color: white; color: black;">GRANADA</div>
+				<div class="class_seleccion_aeropuerto51" id="lega" style="background-color: white; color: black;">ARMILLA</div>
+				<div class="class_seleccion_aeropuerto51" id="leam" style="background-color: white; color: black;">ALMERÍA</div>
+				<div class="class_seleccion_aeropuerto51" id="lelc" style="background-color: white; color: black;">SAN JAVIER</div>
+				<div class="class_seleccion_aeropuerto51" id="leri" style="background-color: white; color: black;">ALCANTARILLA</div>
+				<div class="class_seleccion_aeropuerto51" id="geml" style="background-color: white; color: black;">MELILLA</div>				
+            </div>
+			 <div class="clear"></div>
+	    </div>
+        <div id="panel51zona2">
+              <div class="class_seleccion_aeropuerto_tabla">
+                <div class="class_seleccion_mes51" id="ene" style="background-color: white; color: black;">Enero</div>
+                <div class="class_seleccion_mes51" id="feb" style="background-color: white; color: black;">Febrero</div>
+                <div class="class_seleccion_mes51" id="mar" style="background-color: white; color: black;">Marzo</div>
+                <div class="class_seleccion_mes51" id="abr" style="background-color: white; color: black;">Abril</div>
+                <div class="class_seleccion_mes51" id="may" style="background-color: white; color: black;">Mayo</div>
+                <div class="class_seleccion_mes51" id="jun" style="background-color: white; color: black;">Junio</div>
+                <div class="class_seleccion_mes51" id="jul" style="background-color: white; color: black;">Julio</div>
+                <div class="class_seleccion_mes51" id="ago" style="background-color: white; color: black;">Agosto</div>
+                <div class="class_seleccion_mes51" id="sep" style="background-color: white; color: black;">Septiembre</div>
+                <div class="class_seleccion_mes51" id="oct" style="background-color: white; color: black;">Octubre</div>
+                <div class="class_seleccion_mes51" id="nov" style="background-color: white; color: black;">Noviembre</div>
+                <div class="class_seleccion_mes51" id="dic" style="background-color: white; color: black;">Diciembre</div>
+				<div class="clear"></div>
+              </div>
+	    </div> 
+		<div id="panel51zona3">
+              <div class="class_panel51zona3imagen">
+              <img id="panel51zona3imagen" alt="No hay datos">
+              </div>
+            <div class="clear"></div>
+        </div>
+</div>	
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
