@@ -7,8 +7,14 @@ from matplotlib.colors import LinearSegmentedColormap
 import re
 import os
 
+""" Para que funcione se debe situar en la misma carpeta un archivo txt
+    con todos los METARS del aeropuerto. 
+"""
 
 def extrae_metar():
+    """ Extrae la primera y segunda columna de todos los metars,y
+    lo guarda en otro txt.
+    """
     with open('gece.txt') as f1:
         our_lines = f1.readlines()
         for l in our_lines:
@@ -23,14 +29,11 @@ def extrae_metar():
 
 
 def extrae_viento():
-    xLis=[]
-    yLis=[]
-    dire=[]
-    vel=[]
-    year=[]
-    mes=[]
-    dia=[]
-    hora=[]
+    """ En cada METAR separa el año, mes, dia, hora, dirección y velocidad
+    del viento,y lo guarda en un dataframe
+    """
+    xLis, yLis, dire, vel, year, mes, dia, hora = [], [], [], [], [], [], [], []
+    
     
     f = open('gece2.txt','r')
     for line in f:
@@ -92,88 +95,100 @@ def extrae_viento():
     return md
 
 
+
+
+def pintar_grafica(md, mes):
+    """ Pinta la gráfica según el mes seleccionado por el usuario.
+    Además de la frecuencia de la dirección, pinta 2 líneas: en blanco
+    la moda de la dirección del viento, y en azul la media de la
+    velocidad del viento
+    """    
+    md = md[md['mes'] == mes]
+    nombre_mes = MESES[mes - 1]
+    ######################### Dibujo la gráfica #########################
+    md = md.sort_values(by=['hora'])
+    # Evaluate a gaussian kde on a regular grid of nbins x nbins over data extents
+    nbins = 600
+    x = md['hora']
+    y = md['dir']
+    vd = md['vel']
+    k = kde.gaussian_kde([x,y])
+    xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
+    zi = 100*k(np.vstack([xi.flatten(), yi.flatten()]))
+
+    fig = plt.figure(figsize=(30,12))
+    ax = fig.add_subplot(1,1,1)
+    Z = zi.reshape(xi.shape)
+    #cmap = plt.get_cmap('Wistia',22)
+    cmap = LinearSegmentedColormap.from_list(
+        name='test', 
+        colors=['whitesmoke','lemonchiffon','lightsalmon','darkred']
+    )
+
+    plt.pcolormesh(xi, yi, Z, alpha = 0.9, cmap = cmap, vmin=0)
+    cb = plt.colorbar(pad=0.05)
+    cb.set_label(label='Frecuencia de la dirección del viento (%)',
+             size='x-large')
+
+    #############################################################
+    md = md[md['hora'] >= 0]
+    md = md[md['hora'] <= 23]
+    #############################################################
+    md1 = md.groupby(['hora']).agg(lambda x: scipy.stats.mode(x)[0])
+    x_dia =  [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+    y_dir = md1['dir']
+    md2 = md.groupby(['hora']).mean()
+    y_vel = md2['vel']
+
+    ax.plot(x_dia, y_dir, linestyle='-', marker='o',markersize=12,
+         linewidth=12,label="Dirección modal del viento",
+         color = "azure", markeredgecolor = "black")
+
+    ax.set_ylabel('Dirección del viento (°)', fontsize=16, color="black")
+
+    major_ticks = np.arange(0, 23, 1)
+    ax.set_xticks(major_ticks)
+    ax.tick_params(axis="x", labelsize=14)
+
+    ax.tick_params(axis="y", labelsize=14)
+    ax.yaxis.set_ticks(np.arange(0, 365, 10))
+    ax.yaxis.set_ticklabels(['CALMA', '10°','20°','30°','40°','50°','60°','70°','80°','90°',
+                     '100°','110°','120°','130°','140°','150°','160°','170°','180°',
+                     '190°','200°','210°','220°','230°','240°','250°','260°','270°',
+                     '280°','290°','300°','310°','320°','330°','340°','350°','360°'])
+    ######################################################################
+    ax2 = ax.twinx()
+    ax2.plot(x_dia, y_vel, linewidth=8, label="Velocidad media del viento",
+         marker='o',markersize=12,color = "dodgerblue")
+
+    ax2.set_ylabel('Velocidad (kt)', fontsize=16, color="blue")
+    ax2.yaxis.set_ticks(np.arange(0, 15, 1))
+    ax2.tick_params(axis="y", labelsize=14)
+    ####################################################################
+    plt.title(f"GECE {nombre_mes.capitalize()}  - Dia típico de viento (2021-2025)",fontsize=20)
+    plt.xticks(np.arange(0, 24, 1), size = 14)
+    ax.set_xlabel('Hora (UTC)', fontsize=18)
+    ax.grid(b=True, which='both', color='black', linestyle='-', alpha=0.5)
+    ax.legend(loc=2,prop={'size': 12})
+    ax2.legend(loc=1,prop={'size': 12})
+    ax.margins(x=0)
+    plt.show()
+
+
 ######################## Comienza el script ########################
+
+MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
+         "agosto","septiembre","octubre","noviembre","diciembre"]
+
 if not os.path.exists("gece2.txt"):
     extrae_metar()
 else:
     print("...ya existe el archivo gece2.txt")
+    
 md = extrae_viento()
+mes = int(input("¿Qué mes quieres visualizar del 1 al 12? ").strip())
 
-######################### Seleccionamos el mes #########################
-md = md[md['mes'] == 4]
-######################### Dibujo la gráfica #########################
-md = md.sort_values(by=['hora'])
-# Evaluate a gaussian kde on a regular grid of nbins x nbins over data extents
-nbins = 600
-x = md['hora']
-y = md['dir']
-vd = md['vel']
-k = kde.gaussian_kde([x,y])
-xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
-zi = 100*k(np.vstack([xi.flatten(), yi.flatten()]))
-
-fig = plt.figure(figsize=(30,12))
-ax = fig.add_subplot(1,1,1)
-Z = zi.reshape(xi.shape)
-#cmap = plt.get_cmap('Wistia',22)
-cmap = LinearSegmentedColormap.from_list(
-    name='test', 
-    colors=['whitesmoke','lemonchiffon','lightsalmon','darkred']
-)
-
-plt.pcolormesh(xi, yi, Z, alpha = 0.9, cmap = cmap, vmin=0)
-cb = plt.colorbar(pad=0.05)
-cb.set_label(label='Frecuencia de la dirección del viento (%)',
-             size='x-large')
-
-#############################################################
-md = md[md['hora'] >= 0]
-md = md[md['hora'] <= 23]
-#############################################################
-md1 = md.groupby(['hora']).agg(lambda x: scipy.stats.mode(x)[0])
-x_dia =  [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-y_dir = md1['dir']
-md2 = md.groupby(['hora']).mean()
-y_vel = md2['vel']
-
-ax.plot(x_dia, y_dir, linestyle='-', marker='o',markersize=12,
-         linewidth=12,label="Dirección modal del viento",
-         color = "azure", markeredgecolor = "black")
-
-
-ax.set_ylabel('Dirección del viento (°)', fontsize=16, color="black")
-
-
-major_ticks = np.arange(0, 23, 1)
-ax.set_xticks(major_ticks)
-ax.tick_params(axis="x", labelsize=14)
-
-ax.tick_params(axis="y", labelsize=14)
-ax.yaxis.set_ticks(np.arange(0, 365, 10))
-ax.yaxis.set_ticklabels(['CALMA', '10°','20°','30°','40°','50°','60°','70°','80°','90°',
-                     '100°','110°','120°','130°','140°','150°','160°','170°','180°',
-                     '190°','200°','210°','220°','230°','240°','250°','260°','270°',
-                     '280°','290°','300°','310°','320°','330°','340°','350°','360°'])
-######################################################################
-
-ax2 = ax.twinx()
-ax2.plot(x_dia, y_vel, linewidth=8, label="Velocidad media del viento",
-         marker='o',markersize=12,color = "dodgerblue")
-
-ax2.set_ylabel('Velocidad (kt)', fontsize=16, color="blue")
-ax2.yaxis.set_ticks(np.arange(0, 15, 1))
-ax2.tick_params(axis="y", labelsize=14)
-#######################################################################
-
-####################################################################
-plt.title("GECE Abril  - Dia típico de viento (2021-2025)",fontsize=20)
-plt.xticks(np.arange(0, 24, 1), size = 14)
-ax.set_xlabel('Hora (UTC)', fontsize=18)
-ax.grid(b=True, which='both', color='black', linestyle='-', alpha=0.5)
-ax.legend(loc=2,prop={'size': 12})
-ax2.legend(loc=1,prop={'size': 12})
-ax.margins(x=0)
-plt.show()
-
-
-
+if 1 <= mes <=12:
+    pintar_grafica(md, mes)
+else:
+    print("Mes inválido")
